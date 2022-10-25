@@ -2,8 +2,8 @@ const axios = require('axios');
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom;
 const store = async (req, res) => {
-    
-   return await axios.get('https://ww1.receita.fazenda.df.gov.br/DecVisualizador/Visualiza/53221007738069000409650690001157581163650897?token=4d53bce03ec34c0a911182d4c228ee6c:AjJXYx/b5gZhtGcNBGE26bvD8OG2y2Dc17vBtB7KFmU=:702034d4961548a6b4ca84273051317f:1666603277')
+  const {params:{url}} = req  
+   return await axios.get(`http://www.fazenda.df.gov.br/nfce/qrcode?p=${url}`)
    .then(
     response => {   
       const {window}= new JSDOM(`${response.data}`);
@@ -24,10 +24,9 @@ const store = async (req, res) => {
       }
     }
   })
-      // .map(a =>a.split(/\[\s]{4}/)).filter(v=>v !== '')
-      
+  
       console.log(splited)
-        return res.json({ok:true})
+        return res.json(splited)
     }
   )
   .catch(

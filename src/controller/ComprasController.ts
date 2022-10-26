@@ -1,7 +1,8 @@
-const axios = require('axios');
-const jsdom = require('jsdom')
+import axios from 'axios';
+import { Request, Response } from 'express';
+import jsdom from 'jsdom'
 const { JSDOM } = jsdom;
-const store = async (req, res) => {
+const store = async (req: Request, res:Response) => {
     const {query :{token},params:{id}} = req  
     
    return await axios.get(`https://ww1.receita.fazenda.df.gov.br/DecVisualizador/Visualiza/${id}?token=${token}`)
@@ -9,12 +10,12 @@ const store = async (req, res) => {
     response => {   
       const {window}= new JSDOM(`${response.data}`);
       const nl = window.document.body.querySelectorAll('li')
-      var arr = [];
+      const arr = [] as HTMLLIElement[] ;
 
-      for(var i = nl.length; i--; arr.unshift(nl[i]));
-      const arrayStrings = arr.map(a => a.textContent.split(/[\s]{4}/g).filter(value =>value))
+      for(let i = nl.length; i--; arr.unshift(nl[i]));
+      const arrayStrings = arr.map(a => a.textContent?.split(/[\s]{4}/g).filter(value =>value))
       const splited = arrayStrings.map(a => {  
-        if(a[8]){
+        if(a && a[8]){
          return {
          codigo:a[1].replace(/[\D]/g,''),
         nome: a[0].split('-')[0].trim(), 
@@ -23,9 +24,8 @@ const store = async (req, res) => {
         valorUnitario:  Number(a[8].replace(',','.'))
       }
     }
-  })
-  console.log(splited[0])
-        return res.json({ok:true})
+  }).filter(v => v)
+        return res.json(splited)
     }
   )
   .catch(
@@ -36,4 +36,4 @@ const store = async (req, res) => {
 
   }
   
-  exports.store = store;
+  export default {store};

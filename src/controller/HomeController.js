@@ -24,9 +24,8 @@ const store = async (req, res) => {
       }
     }
   })
-  
-      console.log(splited)
-        return res.json(splited)
+   
+        return res.json(splited.filter(v=>v))
     }
   )
   .catch(

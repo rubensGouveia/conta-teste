@@ -4,7 +4,7 @@
   "main": "src/server.js",
   "scripts": {
     "build": "babel src --extensions \" .js,.ts\" --out-dir dist --copy-files",
-    "start": "node src/server.js",
+    "start": "node dist/server.js",
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts"
   },
   "license": "MIT",

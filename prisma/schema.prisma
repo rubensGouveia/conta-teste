@@ -11,13 +11,48 @@ datasource db {
 }
 
 model Compra {
-  id             Int      @id @default(autoincrement())
-  codigo         Int
-  nome           String   @unique
-  quantidade     Float
-  unidade_medida String?
-  valor_unitario Float
-  created_at     DateTime @default(now())
+  id              String              @id @default(cuid())
+  estabelecimento String
+  produtos        ProdutoQuantidade[]
+  created_at      DateTime            @default(now())
+  updated_at      DateTime            @updatedAt
+
+  @@map("compra")
+}
+
+model ProdutoQuantidade {
+  quantidade Float
+  produto    Produto  @relation(fields: [produto_id], references: [id])
+  produto_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  compra     Compra   @relation(fields: [compra_id], references: [id])
+  compra_id  String
+
+  @@id([compra_id, produto_id])
+  @@map("produto_quantidade")
+}
+
+model Produto {
+  id             String              @id @default(cuid())
+  nome           String              @unique
+  unidade_medida String
+  created_at     DateTime            @default(now())
+  updated_at     DateTime            @updatedAt
+  valor          Valor[]
+  compras        ProdutoQuantidade[]
 
   @@map("produto")
+}
+
+model Valor {
+  id              String   @id @default(cuid())
+  estabelecimento String
+  valor           Float
+  produto         Produto  @relation(fields: [produto_nome], references: [nome])
+  produto_nome    String
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  @@map("valor")
 }

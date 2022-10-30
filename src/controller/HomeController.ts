@@ -10,7 +10,14 @@ const store = async (req: Request, res: Response) => {
       response => {
         const { window } = new JSDOM(`${response.data}`);
         const nl = window.document.body.querySelectorAll('li')
-        const arr = [] as HTMLLIElement[];
+           const arr = 
+        [] as HTMLLIElement[];
+
+        
+
+
+
+
 
         for (let i = nl.length; i--; arr.unshift(nl[i]));
         const arrayStrings = arr.map(a => a.textContent?.split(/[\s]{4}/g).filter(value => value))

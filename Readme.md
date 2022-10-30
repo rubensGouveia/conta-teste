@@ -1,1 +1,1 @@
-https://gitlabee.alpargatas.com.br/portal_vendas/alpa-portal-vendas-front
+http://localhost:3333/53221007738069000409650660001064681687834794%7C2%7C1%7C1%7C0D4FFD4E47465BA122D2289CBD4992B87F3B02BE

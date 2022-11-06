@@ -6,10 +6,10 @@ module.exports = {
     plugins: [
         ["module-resolver", {
             alias: {
-                "@modules": [".src/modules"],
+                "@services": [".src/services"],
                 "@config": [".src/config"],
-                "@shared": [".src/shared"],
-                "@errors": [".src/errors"],
+                "@types": [".src/@types"],
+                "@db": [".src/db"],
                 "@utils": [".src/utils"],
                 "@controller": [".src/controller"]
             }

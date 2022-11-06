@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use(routes);
 
+// const test = new Date('2022-08-25T16:45:39.097Z')
 app.listen(port, () => {
     console.log('servidor está up')
 })

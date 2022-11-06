@@ -1,7 +1,11 @@
-import { prisma } from "./db/client";
+import { prisma } from "../db/client";
+import { eachMonthOfInterval, subMonths, addMonths, format } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR';
 
-export class GetCompras {
-  async execute(month = -1) {  
+export class ComprasService {
+  private myMonth
+  async find(month = 0) {  
+    this.myMonth = month
     const today = new Date() 
     today.setMonth(today.getMonth() + month )
       const tomorrow = new Date() 
@@ -15,6 +19,9 @@ export class GetCompras {
         return new Date(tomorrow.toISOString().split('T')[0] +'T23:59:59.000Z')
       }
     }  
+
+
+   
     const result = await prisma.compra.findMany({
       where: {
        created_at:{
@@ -45,6 +52,28 @@ export class GetCompras {
           }
         }
       }
+    })
+    return result
+
+  }
+  async getOrcamento(cmo?:number) {  
+   const month = this.myMonth || cmo
+   let date = new Date()
+    if(month >0 ){
+      date = addMonths(date, month)
+    }
+    if(month < 0 ){
+      date = addMonths(date, month)
+    }   
+    const mesAno = format(date, 'MMMM Y', { locale: ptBR }).replace(/^(\w{1})/g, s => s.toUpperCase())
+ 
+    const result = await prisma.orcamento.findFirst({
+      where: {
+       mesAno:{
+        equals:mesAno
+       }
+      }
+     
     })
     return result
 
